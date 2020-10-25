@@ -45,12 +45,8 @@ export class DragAndDrop {
   @observable @output preview?: Array<any>;
   @observable @data hoverPosition?: DropPositionT;
 
-  @operation drop() {
-    this.hoverPosition = undefined;
-  }
-  @operation cancel() {
-    this.hoverPosition = undefined;
-  }
+  @operation drop() {}
+  @operation cancel() {}
 
   static get = (ctr: any): DragAndDrop => ctr.dragAndDrop;
 }
