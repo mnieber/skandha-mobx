@@ -1,6 +1,6 @@
 import { listen } from "facet";
 
-import { Addition } from "../facets/addition";
+import { Addition } from "../facets/Addition";
 import { topOfTheList } from "../policies/DragSourceFromNewItem";
 
 export const newItemsAreCreatedAtTheTop = (ctr: any) => {

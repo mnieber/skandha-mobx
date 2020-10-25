@@ -1,7 +1,7 @@
 import { listen } from "facet";
 
-import { Editing } from "../facets/editing";
-import { Addition } from "../facets/addition";
+import { Editing } from "../facets/Editing";
+import { Addition } from "../facets/Addition";
 
 export const newItemsAreConfirmedWhenSaved = (ctr: any) => {
   listen(Editing.get(ctr), "save", function (item: any) {

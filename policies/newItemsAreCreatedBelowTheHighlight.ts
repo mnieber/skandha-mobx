@@ -1,7 +1,7 @@
 import { listen } from "facet";
 
-import { Addition } from "../facets/addition";
-import { Highlight } from "../facets/highlight";
+import { Addition } from "../facets/Addition";
+import { Highlight } from "../facets/Highlight";
 import { topOfTheList } from "../policies/DragSourceFromNewItem";
 
 export const newItemsAreCreatedBelowTheHighlight = (ctr: any) => {

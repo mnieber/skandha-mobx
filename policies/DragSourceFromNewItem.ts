@@ -1,7 +1,7 @@
 import { listen } from "facet";
 import { computed } from "mobx";
 import { DragAndDrop, DragSource, DragT } from "../facets/DragAndDrop";
-import { Addition } from "../facets/addition";
+import { Addition } from "../facets/Addition";
 
 export const topOfTheList = "<topOfTheList>";
 

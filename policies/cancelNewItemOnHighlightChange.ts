@@ -1,7 +1,7 @@
 import { reaction } from "mobx";
 
-import { Addition } from "../facets/addition";
-import { Highlight } from "../facets/highlight";
+import { Addition } from "../facets/Addition";
+import { Highlight } from "../facets/Highlight";
 
 export const cancelNewItemOnHighlightChange = (ctr: any) =>
   reaction(

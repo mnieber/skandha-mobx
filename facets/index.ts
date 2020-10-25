@@ -1,8 +1,8 @@
-export { labellingReceivesIds } from "./labelling";
+export { labellingReceivesIds } from "./Labelling";
 export {
   dragAndDropActsOnItems,
   draggingCreatesThePreview,
 } from "./DragAndDrop";
-export { selectionActsOnItems } from "./selection";
-export { highlightActsOnItems } from "./highlight";
-export { filteringActsOnItems } from "./filtering";
+export { selectionActsOnItems } from "./Selection";
+export { highlightActsOnItems } from "./Highlight";
+export { filteringActsOnItems } from "./Filtering";

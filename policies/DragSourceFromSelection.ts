@@ -1,6 +1,6 @@
 import { computed } from "mobx";
 import { DragSource, DragT } from "../facets/DragAndDrop";
-import { Selection } from "../facets/selection";
+import { Selection } from "../facets/Selection";
 
 interface PropsT {
   showPreview: boolean;
@@ -22,8 +22,7 @@ export class DragSourceFromSelection extends DragSource<PropsT> {
             data: items,
             showPreview: this.props.showPreview,
           },
-          // use hover position
-          position: undefined,
+          position: undefined, // use hover position
         }
       : undefined;
   }

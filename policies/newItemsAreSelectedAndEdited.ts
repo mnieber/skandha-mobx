@@ -1,8 +1,8 @@
 import { listen } from "facet";
 
-import { Addition } from "../facets/addition";
-import { Editing } from "../facets/editing";
-import { Selection } from "../facets/selection";
+import { Addition } from "../facets/Addition";
+import { Editing } from "../facets/Editing";
+import { Selection } from "../facets/Selection";
 
 export const newItemsAreSelectedAndEdited = (ctr: any) => {
   listen(Addition.get(ctr), "add", function (data: any) {

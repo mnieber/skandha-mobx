@@ -1,7 +1,7 @@
 import { listen } from "facet";
 
-import { Filtering } from "../facets/filtering";
-import { Highlight } from "../facets/highlight";
+import { Filtering } from "../facets/Filtering";
+import { Highlight } from "../facets/Highlight";
 
 function findNeighbourIdx(
   filteredItems: Array<any>,

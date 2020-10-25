@@ -1,7 +1,7 @@
 import { listen } from "facet";
 
-import { Selection } from "../facets/selection";
-import { Highlight } from "../facets/highlight";
+import { Selection } from "../facets/Selection";
+import { Highlight } from "../facets/Highlight";
 
 export const highlightFollowsSelection = (ctr: any) => {
   listen(
