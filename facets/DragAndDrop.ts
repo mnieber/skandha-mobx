@@ -2,6 +2,7 @@ import { observable, computed } from "mobx";
 import { data, input, output, operation } from "facet";
 
 import { findMap } from "../internal/utils";
+import { getPreview } from "../internal/getPreview";
 
 import { mapData, patchFacet, relayDatas } from "..";
 
@@ -51,57 +52,18 @@ export class DragAndDrop {
   static get = (ctr: any): DragAndDrop => ctr.dragAndDrop;
 }
 
-function _getPreview(
-  items: Array<any>,
-  targetItemId: any,
-  isBefore: boolean,
-  payload: Array<any>
-): Array<any> {
-  return !payload.length
-    ? items
-    : items.reduce(
-        (acc, item) => {
-          if (item.id === targetItemId && isBefore) {
-            acc.push(...payload);
-          }
-          if (!payload.find((x) => x.id === item.id)) {
-            acc.push(item);
-          }
-          if (item.id === targetItemId && !isBefore) {
-            acc.push(...payload);
-          }
-          return acc;
-        },
-        targetItemId ? [] : [...payload]
-      );
-}
-
-export function getPreview(
-  inputItems: Array<any>,
-  dropPosition?: DropPositionT,
-  payload?: PayloadT
-) {
-  return inputItems && payload && dropPosition
-    ? _getPreview(
-        inputItems,
-        dropPosition.targetItemId,
-        dropPosition.isBefore,
-        payload.data
-      )
-    : inputItems;
-}
-
 const _handleGetPreview = (self: DragAndDrop) => {
   patchFacet(self, {
     get preview() {
-      const result = self.drag?.payload
+      const dropPosition = self.drag?.position ?? self.hoverPosition;
+      return self.drag && dropPosition
         ? getPreview(
             self.inputItems ?? [],
-            self.drag?.position ?? self.hoverPosition,
-            self.drag?.payload
+            dropPosition.targetItemId,
+            dropPosition.isBefore,
+            self.drag?.payload.data
           )
         : self.inputItems;
-      return result;
     },
   });
 };
