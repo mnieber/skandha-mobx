@@ -7,7 +7,7 @@ export const DragSourceFromNewItem = (ctr: any) => () => {
   return addition.item && addition.parentId
     ? {
         targetItemId: addition.parentId,
-        payload: addition.item,
+        payload: [addition.item],
         isBefore: false,
       }
     : undefined;
