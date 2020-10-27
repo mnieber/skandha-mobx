@@ -21,18 +21,18 @@ export class Insertion {
 
 type InsertItemsT = (drag: DragT, preview: any[]) => any;
 
-const _handleInsertItems = (insertItems: InsertItemsT) => (self: Insertion) => (
-  drag: DragT
-) => {
-  if (self.inputItems) {
-    const preview = getPreview(
-      self.inputItems,
-      drag.targetItemId,
-      drag.isBefore,
-      drag.payload
-    );
-    insertItems(drag, preview);
-  }
+const _handleInsertItems = (insertItems: InsertItemsT) => (self: Insertion) => {
+  return (drag: DragT) => {
+    if (self.inputItems) {
+      const preview = getPreview(
+        self.inputItems,
+        drag.targetItemId,
+        drag.isBefore,
+        drag.payload
+      );
+      insertItems(drag, preview);
+    }
+  };
 };
 
 interface PropsT {

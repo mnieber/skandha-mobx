@@ -4,17 +4,15 @@ import { getPreview } from "../internal/getPreview";
 import { ClassMemberT } from "facet/types";
 import { createPatch } from "..";
 
-type DragSourceFromCtr = (ctr: any) => DragSourceT;
-
 export const createInsertionPreview = (
-  dragSources: DragSourceFromCtr[],
+  dragSources: DragSourceT[],
   [toFacetClass, toMember]: ClassMemberT
 ) =>
   createPatch(toFacetClass, [null], (ctr) => ({
     get [toMember]() {
-      const drag = findMap((dragSource) => dragSource(ctr)(), dragSources);
+      const drag = findMap((dragSource) => dragSource(ctr), dragSources);
       const inputItems = Insertion.get(ctr).inputItems;
-      const preview = drag
+      return drag
         ? getPreview(
             inputItems ?? [],
             drag.targetItemId,
@@ -22,7 +20,5 @@ export const createInsertionPreview = (
             drag.payload
           )
         : inputItems;
-
-      return preview;
     },
   }));
