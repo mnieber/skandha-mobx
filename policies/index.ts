@@ -1,12 +1,12 @@
 export { highlightFollowsSelection } from "./highlightFollowsSelection";
 export { locationIsRestoredOnCancelNewItem } from "./locationIsRestoredOnCancelNewItem";
 export { highlightIsCorrectedOnFilterChange } from "./highlightIsCorrectedOnFilterChange";
-export { newItemsAreCreatedBelowTheHighlight } from "./newItemsAreCreatedBelowTheHighlight";
+export { newItemsAreAddedBelowTheHighlight } from "./newItemsAreAddedBelowTheHighlight";
+export { newItemsAreInsertedWhenConfirmed } from "./newItemsAreInsertedWhenConfirmed";
 export { newItemsAreCreatedAtTheTop } from "./newItemsAreCreatedAtTheTop";
 export { cancelNewItemOnHighlightChange } from "./cancelNewItemOnHighlightChange";
-export { useDragSources } from "./useDragSources";
+export { createInsertionPreview } from "./createInsertionPreview";
 export { newItemsAreConfirmedWhenSaved } from "./newItemsAreConfirmedWhenSaved";
 export { newItemsAreSelectedAndEdited } from "./newItemsAreSelectedAndEdited";
 export { filteringIsDisabledOnNewItem } from "./filteringIsDisabledOnNewItem";
 export { DragSourceFromNewItem } from "./DragSourceFromNewItem";
-export { DragSourceFromSelection } from "./DragSourceFromSelection";
