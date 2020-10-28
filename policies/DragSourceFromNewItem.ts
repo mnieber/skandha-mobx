@@ -1,8 +1,6 @@
 import { Addition } from "../facets/Addition";
 import { DragT } from "../facets/Insertion";
 
-export const topOfTheList = "<topOfTheList>";
-
 export const DragSourceFromNewItem = (ctr: any): DragT | undefined => {
   const addition = Addition.get(ctr);
   return addition.item && addition.parentId
