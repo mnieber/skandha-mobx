@@ -6,10 +6,13 @@ import { mapData } from "..";
 
 export type DragSourceT = (ctr: any) => DragT | undefined;
 
-export type DragT = {
-  payload: any;
+export type DropPositionT = {
   isBefore: boolean;
   targetItemId: string;
+};
+
+export type DragT = DropPositionT & {
+  payload: any;
 };
 
 export class Insertion {

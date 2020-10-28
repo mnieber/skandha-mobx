@@ -10,3 +10,4 @@ export { newItemsAreConfirmedWhenSaved } from "./newItemsAreConfirmedWhenSaved";
 export { newItemsAreSelectedAndEdited } from "./newItemsAreSelectedAndEdited";
 export { filteringIsDisabledOnNewItem } from "./filteringIsDisabledOnNewItem";
 export { DragSourceFromNewItem } from "./DragSourceFromNewItem";
+export { selectionIsInsertedOnDragAndDrop } from "./selectionIsInsertedOnDragAndDrop";
