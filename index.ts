@@ -5,7 +5,7 @@ import {
   isDataMember,
   getFacet,
   ClassMemberT,
-} from "facet";
+} from "facility";
 
 export { installHandlers } from "./lib/install";
 

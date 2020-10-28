@@ -1,21 +1,22 @@
-import { listen } from "facet";
+import { getCtr } from "facility";
 
 import { Editing } from "../facets/Editing";
 import { Addition } from "../facets/Addition";
 
-export const newItemsAreConfirmedWhenSaved = (ctr: any) => {
-  listen(Editing.get(ctr), "save", function (item: any) {
-    const addition = Addition.get(ctr);
-    if (item.id === undefined) {
-      throw Error("No id in item");
-    }
-    if (addition.item && item.id === addition.item.id) {
-      Addition.get(ctr).confirm();
-    }
-  });
-  listen(Editing.get(ctr), "cancel", function () {
-    if (Addition.get(ctr).item) {
-      Addition.get(ctr).cancel();
-    }
-  });
-};
+export function newItemsAreConfirmedOnEditingSave(this: Editing, values: any) {
+  const ctr = getCtr(this);
+  const addition = Addition.get(ctr);
+  if (values.id === undefined) {
+    throw Error("No id in item");
+  }
+  if (values.id === addition.item?.id) {
+    Addition.get(ctr).confirm();
+  }
+}
+
+export function newItemsAreCancelledOnEditingCancel(this: Editing) {
+  const ctr = getCtr(this);
+  if (Addition.get(ctr).item) {
+    Addition.get(ctr).cancel();
+  }
+}

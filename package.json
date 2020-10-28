@@ -1,7 +1,7 @@
 {
-  "name": "facet-mobx",
+  "name": "facility-mobx",
   "version": "1.0.2",
-  "description": "Mobx bindings for facet",
+  "description": "Mobx bindings for facility",
   "main": "index.js",
   "repository": "https://github.com/mnieber/facet-mobx.git",
   "author": "Maarten Nieber",
@@ -9,7 +9,7 @@
   "types": "index.d.ts",
   "prepublish": "tsc",
   "dependencies": {
-    "facet": "^1.0.1",
+    "facility": "^0.0.1",
     "mobx": "^5.14.0"
   },
   "devDependencies": {

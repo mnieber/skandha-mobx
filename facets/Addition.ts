@@ -1,49 +1,32 @@
 import { observable } from "mobx";
-import { operation, data } from "facet";
+import { operation, data, exec } from "facility";
 
-import { installHandlers } from "../lib/install";
+type GenericObjectT = any;
 
 export class Addition<ValueT = any> {
   @observable @data item: ValueT | undefined;
   @observable @data parentId: any;
 
-  @operation add(values: any) {}
-  @operation confirm() {}
-  @operation cancel() {}
+  @operation add(values: GenericObjectT) {
+    this.item = exec("createItem");
+    exec("createItem_post");
+  }
+  @operation confirm() {
+    exec("confirm", { optional: true });
+    this._reset();
+  }
+  @operation cancel() {
+    this._reset();
+  }
+
+  _reset() {
+    this.item = undefined;
+    this.parentId = undefined;
+  }
 
   static get = (ctr: any): Addition => ctr.addition;
 }
 
-const handleCancelNewItem = (self: Addition) => () => {
-  self.item = undefined;
-  self.parentId = undefined;
-};
-
-const handleConfirmNewItem = (self: Addition) => () => {
-  self.item = undefined;
-  self.parentId = undefined;
-};
-
-type CreateItemT = (values: any) => any;
-
-const handleAddNewItem = (createItem: CreateItemT) => (self: Addition) => (
-  values: any
-) => {
-  self.item = createItem(values);
-};
-
-interface PropsT {
-  createItem: CreateItemT;
-}
-
-export const initAddition = (self: Addition, props: PropsT): Addition => {
-  installHandlers(
-    {
-      add: handleAddNewItem(props.createItem),
-      cancel: handleCancelNewItem,
-      confirm: handleConfirmNewItem,
-    },
-    self
-  );
+export const initAddition = (self: Addition): Addition => {
   return self;
 };

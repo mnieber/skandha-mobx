@@ -1,31 +1,13 @@
-import { operation } from "facet";
-
-import { installHandlers } from "../lib/install";
-
-type deleteItemsT = (itemIds: string[]) => any;
+import { operation, exec } from "facility";
 
 export class Deletion {
-  @operation delete(itemIds: string[]) {}
+  @operation delete(itemIds: string[]) {
+    exec("deleteItems");
+  }
 
   static get = (ctr: any): Deletion => ctr.deletion;
 }
 
-const _handleDelete = (deleteItems: deleteItemsT) => (self: Deletion) => (
-  itemIds: string[]
-) => {
-  deleteItems(itemIds);
-};
-
-interface PropsT {
-  deleteItems: deleteItemsT;
-}
-
-export const initDeletion = (self: Deletion, props: PropsT): Deletion => {
-  installHandlers(
-    {
-      delete: _handleDelete(props.deleteItems),
-    },
-    self
-  );
+export const initDeletion = (self: Deletion): Deletion => {
   return self;
 };

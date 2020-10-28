@@ -1,7 +1,6 @@
 import { observable } from "mobx";
-import { data, operation, output } from "facet";
+import { data, operation, output } from "facility";
 
-import { installHandlers } from "../lib/install";
 import { patchFacet, mapData } from "..";
 
 export class Filtering {
@@ -11,20 +10,17 @@ export class Filtering {
   @data inputItems?: Array<any>;
   @output filteredItems?: Array<any>;
 
-  @operation apply(filter: (x: any) => Array<any>) {}
-  @operation setEnabled(flag: boolean) {}
+  @operation apply(filter: (x: any) => Array<any>) {
+    this.filter = filter;
+    this.isEnabled = true;
+  }
+
+  @operation setEnabled(flag: boolean) {
+    this.isEnabled = flag;
+  }
 
   static get = (ctr: any): Filtering => ctr.filtering;
 }
-
-const _handleFilteringSetEnabled = (self: Filtering) => (flag: boolean) => {
-  self.isEnabled = flag;
-};
-
-const _handleFilteringApply = (self: Filtering) => (filter: any) => {
-  self.filter = filter;
-  self.isEnabled = true;
-};
 
 const _handleFiltering = (self: Filtering) => {
   patchFacet(self, {
@@ -39,14 +35,6 @@ const _handleFiltering = (self: Filtering) => {
 };
 
 export const initFiltering = (self: Filtering): Filtering => {
-  installHandlers(
-    {
-      apply: _handleFilteringApply,
-      setEnabled: _handleFilteringSetEnabled,
-    },
-    self
-  );
-
   _handleFiltering(self);
   return self;
 };

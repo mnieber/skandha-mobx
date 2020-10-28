@@ -1,15 +1,11 @@
-import { reaction } from "mobx";
-
+import { getCtr } from "facility";
 import { Addition } from "../facets/Addition";
 import { Highlight } from "../facets/Highlight";
 
-export const cancelNewItemOnHighlightChange = (ctr: any) =>
-  reaction(
-    () => Highlight.get(ctr).id,
-    (highlightedItemId) => {
-      const addedItemId = Addition.get(ctr).item?.id;
-      if (addedItemId && addedItemId !== highlightedItemId) {
-        Addition.get(ctr).cancel();
-      }
-    }
-  );
+export function cancelNewItemOnHighlightChange(this: Highlight, id: string) {
+  const ctr = getCtr(this);
+  const addedItemId = Addition.get(ctr).item?.id;
+  if (addedItemId && addedItemId !== id) {
+    Addition.get(ctr).cancel();
+  }
+}
