@@ -12,13 +12,14 @@ export const createInsertionPreview = (
     get [toMember]() {
       const drag = findMap((dragSource) => dragSource(ctr), dragSources);
       const inputItems = Insertion.get(ctr).inputItems;
-      return drag
+      const preview = drag
         ? getPreview(
             inputItems ?? [],
             drag.targetItemId,
             drag.isBefore,
             drag.payload
           )
-        : inputItems;
+        : inputItems ?? [];
+      return preview;
     },
   }));
