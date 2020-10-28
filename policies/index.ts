@@ -7,7 +7,7 @@ export { newItemsAreCreatedAtTheTop } from "./newItemsAreCreatedAtTheTop";
 export { cancelNewItemOnHighlightChange } from "./cancelNewItemOnHighlightChange";
 export { createInsertionPreview } from "./createInsertionPreview";
 export { newItemsAreConfirmedWhenSaved } from "./newItemsAreConfirmedWhenSaved";
-export { newItemsAreSelectedAndEdited } from "./newItemsAreSelectedAndEdited";
+export { newItemsAreEdited } from "./newItemsAreEdited";
 export { filteringIsDisabledOnNewItem } from "./filteringIsDisabledOnNewItem";
 export { DragSourceFromNewItem } from "./DragSourceFromNewItem";
 export { selectionIsInsertedOnDragAndDrop } from "./selectionIsInsertedOnDragAndDrop";
