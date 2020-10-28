@@ -24,11 +24,12 @@ export class Insertion {
 
 type InsertItemsT = (drag: DragT, preview: any[]) => any;
 
-const _handleInsertItems = (insertItems: InsertItemsT) => (self: Insertion) => {
-  return (drag: DragT) => {
-    if (self.inputItems) {
+const _handleInsertItems = (insertItems: InsertItemsT) =>
+  function (this: Insertion, drag: DragT) {
+    debugger;
+    if (this.inputItems) {
       const preview = getPreview(
-        self.inputItems,
+        this.inputItems,
         drag.targetItemId,
         drag.isBefore,
         drag.payload
@@ -36,7 +37,6 @@ const _handleInsertItems = (insertItems: InsertItemsT) => (self: Insertion) => {
       insertItems(drag, preview);
     }
   };
-};
 
 interface PropsT {
   insertItems: InsertItemsT;

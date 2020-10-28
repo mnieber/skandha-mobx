@@ -15,20 +15,19 @@ export class Editing {
   static get = (ctr: any): Editing => ctr.editing;
 }
 
-const _handleEditingCancel = (self: Editing) => () => {
-  self.isEditing = false;
-};
+function _handleEditingCancel(this: Editing) {
+  this.isEditing = false;
+}
 
-const _handleEditingSave = (saveItem: saveItemT) => (self: Editing) => (
-  values: any
-) => {
-  self.isEditing = false;
-  saveItem(values);
-};
+const _handleEditingSave = (saveItem: saveItemT) =>
+  function (this: Editing, values: any) {
+    this.isEditing = false;
+    saveItem(values);
+  };
 
-const _handleEditingSetIsEditing = (self: Editing) => (flag: boolean) => {
-  self.isEditing = flag;
-};
+function _handleEditingSetIsEditing(this: Editing, flag: boolean) {
+  this.isEditing = flag;
+}
 
 interface PropsT {
   saveItem: saveItemT;

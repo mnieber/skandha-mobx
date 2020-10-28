@@ -6,6 +6,6 @@ export function installHandlers(
   facet: any
 ) {
   Object.entries(handlers).forEach(([k, v]) => {
-    handle(facet, k, action(v(facet)));
+    handle(facet, k, action(v.bind(facet)));
   });
 }

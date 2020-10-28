@@ -17,14 +17,14 @@ export class Filtering {
   static get = (ctr: any): Filtering => ctr.filtering;
 }
 
-const _handleFilteringSetEnabled = (self: Filtering) => (flag: boolean) => {
-  self.isEnabled = flag;
-};
+function _handleFilteringSetEnabled(this: Filtering, flag: boolean) {
+  this.isEnabled = flag;
+}
 
-const _handleFilteringApply = (self: Filtering) => (filter: any) => {
-  self.filter = filter;
-  self.isEnabled = true;
-};
+function _handleFilteringApply(this: Filtering, filter: any) {
+  this.filter = filter;
+  this.isEnabled = true;
+}
 
 const _handleFiltering = (self: Filtering) => {
   patchFacet(self, {

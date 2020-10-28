@@ -14,14 +14,18 @@ export class Highlight {
   static get = (ctr: any): Highlight => ctr.highlight;
 }
 
-const _handleHighlight = (self: Highlight) => (id: any) => {
-  self.id = id;
-};
+function _handleHighlight2(this: Highlight, id: any) {
+  this.id = id;
+}
+
+// const _handleHighlight = (self: Highlight) => (id: any) => {
+//   self.id = id;
+// };
 
 export const initHighlight = (self: Highlight): Highlight => {
   installHandlers(
     {
-      highlightItem: _handleHighlight,
+      highlightItem: _handleHighlight2,
     },
     self
   );

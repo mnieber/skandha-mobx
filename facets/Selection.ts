@@ -22,40 +22,39 @@ export class Selection {
   static get = (ctr: any): Selection => ctr.selection;
 }
 
-const _handleSelectItem = (self: Selection) => ({
-  itemId,
-  isShift,
-  isCtrl,
-}: ItemSelectedPropsT) => {
-  const hasItem = self.ids.includes(itemId);
-  const selectableIds = self.selectableIds;
+function _handleSelectItem(
+  this: Selection,
+  { itemId, isShift, isCtrl }: ItemSelectedPropsT
+) {
+  const hasItem = this.ids.includes(itemId);
+  const selectableIds = this.selectableIds;
 
   if (!selectableIds) {
     throw Error("logical error");
   }
 
   if (isShift) {
-    const startItemId = self.anchorId || itemId;
+    const startItemId = this.anchorId || itemId;
     const startIdx = selectableIds.indexOf(startItemId);
     const stopIdx = selectableIds.indexOf(itemId);
     const idxRange = range(
       Math.min(startIdx, stopIdx),
       1 + Math.max(startIdx, stopIdx)
     );
-    self.ids = idxRange.map((idx) => selectableIds[idx]);
+    this.ids = idxRange.map((idx) => selectableIds[idx]);
   } else if (isCtrl) {
-    self.ids = hasItem
-      ? self.ids.filter((x) => x !== itemId)
-      : [...self.ids, itemId];
+    this.ids = hasItem
+      ? this.ids.filter((x) => x !== itemId)
+      : [...this.ids, itemId];
   } else {
-    self.ids = [itemId];
+    this.ids = [itemId];
   }
 
   // Move the anchor
-  if (!(isCtrl && hasItem) && !(isShift && !!self.anchorId)) {
-    self.anchorId = itemId;
+  if (!(isCtrl && hasItem) && !(isShift && !!this.anchorId)) {
+    this.anchorId = itemId;
   }
-};
+}
 
 export function initSelection(self: Selection): Selection {
   installHandlers({ selectItem: _handleSelectItem }, self);

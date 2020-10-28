@@ -10,11 +10,10 @@ export class Deletion {
   static get = (ctr: any): Deletion => ctr.deletion;
 }
 
-const _handleDelete = (deleteItems: deleteItemsT) => (self: Deletion) => (
-  itemIds: string[]
-) => {
-  deleteItems(itemIds);
-};
+const _handleDelete = (deleteItems: deleteItemsT) =>
+  function (this: Deletion, itemIds: string[]) {
+    deleteItems(itemIds);
+  };
 
 interface PropsT {
   deleteItems: deleteItemsT;

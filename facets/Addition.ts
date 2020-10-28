@@ -14,23 +14,22 @@ export class Addition<ValueT = any> {
   static get = (ctr: any): Addition => ctr.addition;
 }
 
-const handleCancelNewItem = (self: Addition) => () => {
-  self.item = undefined;
-  self.parentId = undefined;
-};
+function handleCancelNewItem(this: Addition) {
+  this.item = undefined;
+  this.parentId = undefined;
+}
 
-const handleConfirmNewItem = (self: Addition) => () => {
-  self.item = undefined;
-  self.parentId = undefined;
-};
+function handleConfirmNewItem(this: Addition) {
+  this.item = undefined;
+  this.parentId = undefined;
+}
 
 type CreateItemT = (values: any) => any;
 
-const handleAddNewItem = (createItem: CreateItemT) => (self: Addition) => (
-  values: any
-) => {
-  self.item = createItem(values);
-};
+const handleAddNewItem = (createItem: CreateItemT) =>
+  function (this: Addition, values: any) {
+    this.item = createItem(values);
+  };
 
 interface PropsT {
   createItem: CreateItemT;

@@ -23,21 +23,18 @@ export class Labelling {
   static get = (ctr: any): Labelling => ctr.labelling;
 }
 
-const _handleSetLabel = (saveIds: saveIdsT) => (self: Labelling) => ({
-  label,
-  id,
-  flag,
-}: LabelValueT) => {
-  self.idsByLabel[label] = self.idsByLabel[label] || [];
-  if (flag && !self.idsByLabel[label].includes(id)) {
-    self.idsByLabel[label].push(id);
-    saveIds(label, self.idsByLabel[label]);
-  }
-  if (!flag && self.idsByLabel[label].includes(id)) {
-    self.idsByLabel[label] = self.idsByLabel[label].filter((x) => x !== id);
-    saveIds(label, self.idsByLabel[label]);
-  }
-};
+const _handleSetLabel = (saveIds: saveIdsT) =>
+  function (this: Labelling, { label, id, flag }: LabelValueT) {
+    this.idsByLabel[label] = this.idsByLabel[label] || [];
+    if (flag && !this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label].push(id);
+      saveIds(label, this.idsByLabel[label]);
+    }
+    if (!flag && this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
+      saveIds(label, this.idsByLabel[label]);
+    }
+  };
 
 interface PropsT {
   saveIds: saveIdsT;
