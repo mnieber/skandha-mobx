@@ -9,23 +9,21 @@ export class Highlight {
 
   @output item: any;
 
-  @operation highlightItem(id: any) {}
+  @operation highlightItem(id: string) {}
 
   static get = (ctr: any): Highlight => ctr.highlight;
 }
 
-function _handleHighlight2(this: Highlight, id: any) {
+function _handleHighlight(this: Highlight, id: string) {
   this.id = id;
 }
 
-// const _handleHighlight = (self: Highlight) => (id: any) => {
-//   self.id = id;
-// };
+};
 
 export const initHighlight = (self: Highlight): Highlight => {
   installHandlers(
     {
-      highlightItem: _handleHighlight2,
+      highlightItem: _handleHighlight,
     },
     self
   );
