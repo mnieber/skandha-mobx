@@ -3,7 +3,6 @@ import { observable } from "mobx";
 import { data, input, operation, output } from "facet";
 import { lookUp, range } from "../internal/utils";
 import { mapDatas } from "..";
-import { installHandlers } from "../lib/install";
 
 export type ItemSelectedPropsT = {
   itemId: any;
@@ -22,7 +21,7 @@ export class Selection {
   static get = (ctr: any): Selection => ctr.selection;
 }
 
-function _handleSelectItem(
+export function handleSelectItem(
   this: Selection,
   { itemId, isShift, isCtrl }: ItemSelectedPropsT
 ) {
@@ -54,11 +53,6 @@ function _handleSelectItem(
   if (!(isCtrl && hasItem) && !(isShift && !!this.anchorId)) {
     this.anchorId = itemId;
   }
-}
-
-export function initSelection(self: Selection): Selection {
-  installHandlers({ selectItem: _handleSelectItem }, self);
-  return self;
 }
 
 export const selectionActsOnItems = ([Collection, itemById]: any) =>
