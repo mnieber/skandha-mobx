@@ -26,7 +26,6 @@ type InsertItemsT = (drag: DragT, preview: any[]) => any;
 
 const _handleInsertItems = (insertItems: InsertItemsT) =>
   function (this: Insertion, drag: DragT) {
-    debugger;
     if (this.inputItems) {
       const preview = getPreview(
         this.inputItems,

@@ -1,32 +1,52 @@
 import { observable } from "mobx";
-import { data, operation, output } from "facet";
+import {
+  data,
+  operation,
+  output,
+  opAction,
+  // installActions,
+  installActions,
+} from "facet";
 
-import { installHandlers } from "../lib/install";
 import { mapDatas } from "..";
 
 export class Highlight {
-  @data @observable id: any;
+  @data @observable id: string | undefined;
+  @data @observable bar: number | undefined;
 
   @output item: any;
 
   @operation highlightItem(id: string) {}
+  @operation foo(x: number) {}
 
   static get = (ctr: any): Highlight => ctr.highlight;
 }
 
-function _handleHighlight(this: Highlight, id: string) {
+export const _handleHighlight = opAction("Highlight.highlightItem")(function (
+  this: Highlight,
+  id: string
+) {
+  debugger;
   this.id = id;
-}
+});
 
+export const _doIt = function (this: Highlight, id: string) {
+  debugger;
+  console.log("ID", id);
 };
 
+export const _handleFoo = opAction("Highlight.foo")(function (
+  this: Highlight,
+  x: number
+) {
+  this.bar = x;
+});
+
 export const initHighlight = (self: Highlight): Highlight => {
-  installHandlers(
-    {
-      highlightItem: _handleHighlight,
-    },
-    self
-  );
+  installActions(self, {
+    highlightItem: [_handleHighlight, _doIt],
+    foo: [_handleFoo],
+  });
   return self;
 };
 
