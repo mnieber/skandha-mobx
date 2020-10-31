@@ -1,5 +1,5 @@
 import { observable } from "mobx";
-import { data, operation, output, opAction } from "facet";
+import { data, operation, output } from "facet";
 import { mapDatas } from "..";
 
 export class Highlight {
@@ -13,11 +13,9 @@ export class Highlight {
   static get = (ctr: any): Highlight => ctr.highlight;
 }
 
-export const handleHighlightItem = opAction("Highlight.highlightItem")(
-  function (this: Highlight, id: string) {
-    this.id = id;
-  }
-);
+export function handleHighlightItem(this: Highlight, id: string) {
+  this.id = id;
+}
 
 export const highlightActsOnItems = ([Collection, itemById]: any) =>
   mapDatas(

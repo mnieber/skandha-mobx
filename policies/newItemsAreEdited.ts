@@ -1,13 +1,12 @@
-import { listen } from "facet";
-
-import { Addition } from "../facets/Addition";
+import { getCtr } from "facet";
 import { Editing } from "../facets/Editing";
 
-export const newItemsAreEdited = (ctr: any) => {
-  listen(Addition.get(ctr), "add", function (data: any) {
-    Editing.get(ctr).setIsEditing(true);
-  });
-  listen(Addition.get(ctr), "cancel", function (data: any) {
-    Editing.get(ctr).setIsEditing(false);
-  });
-};
+export function editingSetEnabled(this: any) {
+  const ctr = getCtr(this);
+  Editing.get(ctr).setIsEditing(true);
+}
+
+export function editingSetDisabled(this: any) {
+  const ctr = getCtr(this);
+  Editing.get(ctr).setIsEditing(false);
+}
