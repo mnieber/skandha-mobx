@@ -1,11 +1,13 @@
 import { observable, runInAction } from "mobx";
-import { operation } from "facet";
+import { operation, exec } from "facet";
 import { DropPositionT } from "./Insertion";
 import { isBefore } from "../internal/utils";
 
 export class DragAndDrop {
   @observable hoverPosition?: DropPositionT;
-  @operation drop(hoverPosition: DropPositionT) {}
+  @operation drop(dropPosition: DropPositionT) {
+    exec("drop");
+  }
 
   handle(itemId: any) {
     return {

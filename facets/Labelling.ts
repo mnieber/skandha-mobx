@@ -1,8 +1,7 @@
 import { observable } from "mobx";
-import { input, operation } from "facet";
+import { input, operation, exec } from "facet";
 import { ClassMemberT } from "facet/types";
 
-import { installHandlers } from "../lib/install";
 import { lookUp } from "../internal/utils";
 import { mapDatas, relayData } from "..";
 
@@ -10,38 +9,28 @@ export type IdsByLabelT = { [label: string]: Array<any> };
 export type ItemsByLabelT = { [label: string]: Array<any> };
 export type LabelValueT = { label: string; id: any; flag: boolean };
 
-type saveIdsT = (label: string, ids: Array<any>) => any;
-
 export class Labelling {
   @observable idsByLabel: IdsByLabelT = {};
   ids = (label: string) => this.idsByLabel[label] || [];
 
   @input itemsByLabel?: ItemsByLabelT;
 
-  @operation setLabel(labelValue: LabelValueT) {}
+  @operation setLabel({ label, id, flag }: LabelValueT) {
+    this.idsByLabel[label] = this.idsByLabel[label] || [];
+    if (flag && !this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label].push(id);
+      exec("saveIds")(label, this.idsByLabel[label]);
+    }
+    if (!flag && this.idsByLabel[label].includes(id)) {
+      this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
+      exec("saveIds")(label, this.idsByLabel[label]);
+    }
+  }
 
   static get = (ctr: any): Labelling => ctr.labelling;
 }
 
-const _handleSetLabel = (saveIds: saveIdsT) =>
-  function (this: Labelling, { label, id, flag }: LabelValueT) {
-    this.idsByLabel[label] = this.idsByLabel[label] || [];
-    if (flag && !this.idsByLabel[label].includes(id)) {
-      this.idsByLabel[label].push(id);
-      saveIds(label, this.idsByLabel[label]);
-    }
-    if (!flag && this.idsByLabel[label].includes(id)) {
-      this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
-      saveIds(label, this.idsByLabel[label]);
-    }
-  };
-
-interface PropsT {
-  saveIds: saveIdsT;
-}
-
-export const initLabelling = (self: Labelling, props: PropsT): Labelling => {
-  installHandlers({ setLabel: _handleSetLabel(props.saveIds) }, self);
+export const initLabelling = (self: Labelling): Labelling => {
   return self;
 };
 

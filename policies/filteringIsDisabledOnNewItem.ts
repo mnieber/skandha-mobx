@@ -1,10 +1,9 @@
-import { listen } from "facet";
+import { getCtr } from "facet";
 
 import { Addition } from "../facets/Addition";
 import { Filtering } from "../facets/Filtering";
 
-export const filteringIsDisabledOnNewItem = (ctr: any) => {
-  listen(Addition.get(ctr), "add", function () {
-    Filtering.get(ctr).setEnabled(false);
-  });
-};
+export function filteringIsDisabledOnNewItem(this: Addition) {
+  const ctr = getCtr(this);
+  Filtering.get(ctr).setEnabled(false);
+}
