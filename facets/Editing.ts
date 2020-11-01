@@ -6,18 +6,18 @@ export class Editing {
 
   @operation save(values: any) {
     exec("saveItem");
-    this.setIsEditing(false);
+    this.isEditing = false;
   }
   @operation cancel() {
-    this.setIsEditing(false);
+    this.isEditing = false;
   }
-  @operation setIsEditing(flag: boolean) {
-    this.isEditing = flag;
+  @operation enable() {
+    this.isEditing = true;
   }
 
   static get = (ctr: any): Editing => ctr.editing;
 }
 
-export const initEditing = (self: Editing): Editing => {
+export const initEditing = <T extends Editing>(self: T): T => {
   return self;
 };

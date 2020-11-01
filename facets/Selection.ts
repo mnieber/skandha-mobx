@@ -23,6 +23,10 @@ export class Selection {
   static get = (ctr: any): Selection => ctr.selection;
 }
 
+export const initSelection = (self: Selection): Selection => {
+  return self;
+};
+
 export function handleSelectItem(
   this: Selection,
   { itemId, isShift, isCtrl }: ItemSelectedPropsT

@@ -3,10 +3,16 @@ import { Editing } from "../facets/Editing";
 
 export function editingSetEnabled(this: any) {
   const ctr = getCtr(this);
-  Editing.get(ctr).setIsEditing(true);
+  const editing = Editing.get(ctr);
+  if (!editing.isEditing) {
+    editing.enable();
+  }
 }
 
 export function editingSetDisabled(this: any) {
   const ctr = getCtr(this);
-  Editing.get(ctr).setIsEditing(false);
+  const editing = Editing.get(ctr);
+  if (editing.isEditing) {
+    editing.cancel();
+  }
 }

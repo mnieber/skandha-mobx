@@ -24,3 +24,7 @@ export const highlightActsOnItems = ([Collection, itemById]: any) =>
     [Highlight, "item"],
     (itemById: any, id: any) => itemById[id]
   );
+
+export const initHighlight = (self: Highlight): Highlight => {
+  return self;
+};
