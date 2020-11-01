@@ -8,13 +8,11 @@ export class Highlight {
 
   @output item: any;
 
-  @operation highlightItem(id: string) {}
+  @operation highlightItem(id: string) {
+    this.id = id;
+  }
 
   static get = (ctr: any): Highlight => ctr.highlight;
-}
-
-export function handleHighlightItem(this: Highlight, id: string) {
-  this.id = id;
 }
 
 export const highlightActsOnItems = ([Collection, itemById]: any) =>

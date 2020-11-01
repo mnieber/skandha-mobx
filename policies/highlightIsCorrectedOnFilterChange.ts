@@ -1,4 +1,4 @@
-import { listen } from "facet";
+import { getCtr } from "facet";
 
 import { Filtering } from "../facets/Filtering";
 import { Highlight } from "../facets/Highlight";
@@ -18,13 +18,12 @@ function findNeighbourIdx(
   return undefined;
 }
 
-export const highlightIsCorrectedOnFilterChange = (ctr: any) => {
-  const _correctHighlight = () => {
+export function highlightIsCorrectedOnFilterChange(this: Filtering) {
+  const ctr = getCtr(this);
+  if (this.isEnabled) {
     const highlight = Highlight.get(ctr).id;
-    const inputItems = Filtering.get(ctr).inputItems;
-    const filteredItemIds = (Filtering.get(ctr).filteredItems ?? []).map(
-      (x) => x.id
-    );
+    const inputItems = this.inputItems;
+    const filteredItemIds = (this.filteredItems ?? []).map((x) => x.id);
     const inputIds = (inputItems || []).map((x) => x.id);
 
     if (
@@ -48,11 +47,5 @@ export const highlightIsCorrectedOnFilterChange = (ctr: any) => {
         Highlight.get(ctr).highlightItem(inputIds[newIdx.result]);
       }
     }
-  };
-
-  listen(Filtering.get(ctr), "apply", () => {
-    if (Filtering.get(ctr).isEnabled) {
-      _correctHighlight();
-    }
-  });
-};
+  }
+}

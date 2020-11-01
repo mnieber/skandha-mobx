@@ -1,6 +1,6 @@
 import { observable } from "mobx";
 
-import { data, input, operation, output } from "facet";
+import { data, input, operation, output, exec } from "facet";
 import { lookUp, range } from "../internal/utils";
 import { mapDatas } from "..";
 
@@ -16,7 +16,9 @@ export class Selection {
   @data @observable anchorId: any;
   @output items?: Array<any>;
 
-  @operation selectItem({ itemId, isShift, isCtrl }: ItemSelectedPropsT) {}
+  @operation selectItem({ itemId, isShift, isCtrl }: ItemSelectedPropsT) {
+    exec("selectItem");
+  }
 
   static get = (ctr: any): Selection => ctr.selection;
 }

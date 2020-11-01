@@ -9,17 +9,16 @@ export class Addition<ValueT = any> {
     this.item = exec("createItem");
   }
   @operation confirm() {
-    exec("confirm");
-    exec("reset");
+    this._reset();
   }
   @operation cancel() {
-    exec("reset");
+    this._reset();
+  }
+
+  _reset() {
+    this.item = undefined;
+    this.parentId = undefined;
   }
 
   static get = (ctr: any): Addition => ctr.addition;
-}
-
-export function handleResetNewItem(this: Addition) {
-  this.item = undefined;
-  this.parentId = undefined;
 }

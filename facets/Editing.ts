@@ -1,46 +1,23 @@
 import { observable } from "mobx";
-import { operation } from "facet";
-
-import { installHandlers } from "../lib/install";
-
-type saveItemT = (values: any) => any;
+import { operation, exec } from "facet";
 
 export class Editing {
   @observable isEditing: boolean = false;
 
-  @operation save(values: any) {}
-  @operation cancel() {}
-  @operation setIsEditing(flag: boolean) {}
+  @operation save(values: any) {
+    exec("saveItem");
+    this.setIsEditing(false);
+  }
+  @operation cancel() {
+    this.setIsEditing(false);
+  }
+  @operation setIsEditing(flag: boolean) {
+    this.isEditing = flag;
+  }
 
   static get = (ctr: any): Editing => ctr.editing;
 }
 
-function _handleEditingCancel(this: Editing) {
-  this.isEditing = false;
-}
-
-const _handleEditingSave = (saveItem: saveItemT) =>
-  function (this: Editing, values: any) {
-    this.isEditing = false;
-    saveItem(values);
-  };
-
-function _handleEditingSetIsEditing(this: Editing, flag: boolean) {
-  this.isEditing = flag;
-}
-
-interface PropsT {
-  saveItem: saveItemT;
-}
-
-export const initEditing = (self: Editing, props: PropsT): Editing => {
-  installHandlers(
-    {
-      cancel: _handleEditingCancel,
-      save: _handleEditingSave(props.saveItem),
-      setIsEditing: _handleEditingSetIsEditing,
-    },
-    self
-  );
+export const initEditing = (self: Editing): Editing => {
   return self;
 };
