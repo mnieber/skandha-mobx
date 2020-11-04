@@ -1,5 +1,4 @@
 export { highlightFollowsSelection } from "./highlightFollowsSelection";
-export { locationIsRestoredOnCancelNewItem } from "./locationIsRestoredOnCancelNewItem";
 export { highlightIsCorrectedOnFilterChange } from "./highlightIsCorrectedOnFilterChange";
 export { newItemsAreAddedBelowTheHighlight } from "./newItemsAreAddedBelowTheHighlight";
 export { newItemsAreInsertedWhenConfirmed } from "./newItemsAreInsertedWhenConfirmed";
