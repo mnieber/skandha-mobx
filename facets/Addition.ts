@@ -11,7 +11,7 @@ export class Addition<ValueT = any> {
     this.item = exec("createItem");
   }
   @operation confirm() {
-    exec("confirm");
+    exec("confirm", { optional: true });
     this._reset();
   }
   @operation cancel() {
