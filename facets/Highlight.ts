@@ -4,8 +4,6 @@ import { mapDatas } from "..";
 
 export class Highlight {
   @data @observable id: string | undefined;
-  @data @observable bar: number | undefined;
-
   @output item: any;
 
   @operation highlightItem(id: string) {

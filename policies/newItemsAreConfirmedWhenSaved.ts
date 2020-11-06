@@ -9,7 +9,7 @@ export function newItemsAreConfirmedOnEditingSave(this: Editing, values: any) {
   if (values.id === undefined) {
     throw Error("No id in item");
   }
-  if (values.id === addition?.item.id) {
+  if (values.id === addition.item?.id) {
     Addition.get(ctr).confirm();
   }
 }
