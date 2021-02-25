@@ -15,7 +15,7 @@ export class DragAndDrop {
       onDragStart: () => {},
       onDragOver: (e: any) => {
         e.preventDefault();
-        runInAction("onDragOver", () => {
+        runInAction(() => {
           this.hoverPosition = {
             targetItemId: itemId,
             isBefore: isBefore(e),

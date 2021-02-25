@@ -3,7 +3,7 @@ import {
   facetClassName,
   facetName,
   isDataMember,
-  getFacet,
+  get,
   ClassMemberT,
 } from "facility";
 
@@ -22,13 +22,13 @@ export const relayData = (
   setter?: Function
 ) => (ctr: any) =>
   reaction(
-    () => getFacet(fromFacetClass, ctr)[fromMember],
+    () => get(fromFacetClass, ctr)[fromMember],
     (data) => {
       const result = transform ? transform(data) : data;
       if (setter) {
-        setter(result, getFacet(toFacetClass, ctr)[toMember]);
+        setter(result, get(toFacetClass, ctr)[toMember]);
       } else {
-        getFacet(toFacetClass, ctr)[toMember] = result;
+        get(toFacetClass, ctr)[toMember] = result;
       }
     },
     {
@@ -47,15 +47,14 @@ export const relayDatas = (
   reaction(
     () =>
       sources.map(
-        ([fromFacetClass, fromMember]) =>
-          getFacet(fromFacetClass, ctr)[fromMember]
+        ([fromFacetClass, fromMember]) => get(fromFacetClass, ctr)[fromMember]
       ),
     (datas) => {
       const result = transform(...datas);
       if (setter) {
-        setter(result, getFacet(toFacetClass, ctr)[toMember]);
+        setter(result, get(toFacetClass, ctr)[toMember]);
       } else {
-        getFacet(toFacetClass, ctr)[toMember] = result;
+        get(toFacetClass, ctr)[toMember] = result;
       }
     }
   );
@@ -85,13 +84,13 @@ export function createPatch(
 ) {
   return (ctr: any) => {
     const otherFacets = otherFacetClasses.map((facetClass) =>
-      facetClass ? getFacet(facetClass, ctr) : ctr
+      facetClass ? get(facetClass, ctr) : ctr
     );
     // @ts-ignore
     const patch = callback.bind(this)(...otherFacets);
 
     if (patch && patchedFacetClass) {
-      patchFacet(getFacet(patchedFacetClass, ctr), patch);
+      patchFacet(get(patchedFacetClass, ctr), patch);
     }
   };
 }
@@ -103,10 +102,10 @@ export function createPatches(
 ) {
   return (ctr: any) => {
     const patchedFacets = patchedFacetClasses.map((facetClass) =>
-      getFacet(facetClass, ctr)
+      get(facetClass, ctr)
     );
     const otherFacets = otherFacetClasses.map((facetClass) =>
-      facetClass ? getFacet(facetClass, ctr) : ctr
+      facetClass ? get(facetClass, ctr) : ctr
     );
     const patches = callback(...otherFacets);
 
