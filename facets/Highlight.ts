@@ -1,13 +1,20 @@
 import { observable } from "mobx";
 import { data, operation, output } from "facility";
 import { mapDatas } from "..";
+import { host, stub } from "aspiration";
+
+export class Highlight_highlightItem {
+  id: string = stub();
+}
 
 export class Highlight {
   @data @observable id: string | undefined;
   @output item: any;
 
-  @operation highlightItem(id: string) {
-    this.id = id;
+  @operation @host highlightItem(id: string) {
+    return (cbs: Highlight_highlightItem) => {
+      this.id = id;
+    };
   }
 
   static get = (ctr: any): Highlight => ctr.highlight;

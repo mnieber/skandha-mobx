@@ -18,12 +18,12 @@ function findNeighbourIdx(
   return undefined;
 }
 
-export function highlightIsCorrectedOnFilterChange(this: Filtering) {
-  const ctr = getCtr(this);
-  if (this.isEnabled) {
+export function highlightIsCorrectedOnFilterChange(facet: Filtering) {
+  const ctr = getCtr(facet);
+  if (facet.isEnabled) {
     const highlight = Highlight.get(ctr).id;
-    const inputItems = this.inputItems;
-    const filteredItemIds = (this.filteredItems ?? []).map((x) => x.id);
+    const inputItems = facet.inputItems;
+    const filteredItemIds = (facet.filteredItems ?? []).map((x) => x.id);
     const inputIds = (inputItems || []).map((x) => x.id);
 
     if (

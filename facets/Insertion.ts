@@ -1,7 +1,13 @@
 import { observable } from "mobx";
-import { input, operation, exec } from "facility";
+import { input, operation } from "facility";
 import { getPreview } from "../internal/getPreview";
 import { mapData } from "..";
+import { host, stub } from "aspiration";
+
+export class Insertion_insertItems {
+  drag: DragT = stub();
+  insertItems(preview: Array<any>) {}
+}
 
 export type DragSourceT = (ctr: any) => DragT | undefined;
 
@@ -16,16 +22,18 @@ export type DragT = DropPositionT & {
 
 export class Insertion {
   @observable @input inputItems?: Array<any>;
-  @operation insertItems(drag: DragT) {
-    if (this.inputItems) {
-      const preview: Array<any> = getPreview(
-        this.inputItems,
-        drag.targetItemId,
-        drag.isBefore,
-        drag.payload
-      );
-      exec("insertItems")(preview);
-    }
+  @operation @host insertItems(drag: DragT) {
+    return (cbs: Insertion_insertItems) => {
+      if (this.inputItems) {
+        const preview: Array<any> = getPreview(
+          this.inputItems,
+          drag.targetItemId,
+          drag.isBefore,
+          drag.payload
+        );
+        cbs.insertItems(preview);
+      }
+    };
   }
 
   static get = (ctr: any): Insertion => ctr.insertion;

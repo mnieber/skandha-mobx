@@ -1,22 +1,37 @@
 import { observable } from "mobx";
 import { data, operation, output } from "facility";
+import { host, stub } from "aspiration";
 
 import { patchFacet, mapData } from "..";
 
+type FilterT = (x: any) => Array<any>;
+
+export class Filtering_apply {
+  filter: FilterT = stub();
+}
+
+export class Filtering_setEnabled {
+  flag: boolean = stub();
+}
+
 export class Filtering {
   @observable isEnabled: boolean = false;
-  @observable filter: (x: any) => Array<any> = () => [];
+  @observable filter: FilterT = () => [];
 
   @data inputItems?: Array<any>;
   @output filteredItems?: Array<any>;
 
-  @operation apply(filter: (x: any) => Array<any>) {
-    this.filter = filter;
-    this.isEnabled = true;
+  @operation @host apply(filter: FilterT) {
+    return (cbs: Filtering_apply) => {
+      this.filter = filter;
+      this.isEnabled = true;
+    };
   }
 
-  @operation setEnabled(flag: boolean) {
-    this.isEnabled = flag;
+  @operation @host setEnabled(flag: boolean) {
+    return (cbs: Filtering_setEnabled) => {
+      this.isEnabled = flag;
+    };
   }
 
   static get = (ctr: any): Filtering => ctr.filtering;

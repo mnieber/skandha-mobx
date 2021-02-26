@@ -1,6 +1,7 @@
 import { observable } from "mobx";
-import { input, operation, exec } from "facility";
+import { input, operation } from "facility";
 import { ClassMemberT } from "facility";
+import { host, stub } from "aspiration";
 
 import { lookUp } from "../internal/utils";
 import { mapDatas, relayData } from "..";
@@ -9,22 +10,30 @@ export type IdsByLabelT = { [label: string]: Array<any> };
 export type ItemsByLabelT = { [label: string]: Array<any> };
 export type LabelValueT = { label: string; id: any; flag: boolean };
 
+export class Labelling_setLabel {
+  labelValue: LabelValueT = stub();
+  saveIds(label: string, ids: any[]) {}
+}
+
 export class Labelling {
   @observable idsByLabel: IdsByLabelT = {};
   ids = (label: string) => this.idsByLabel[label] || [];
 
   @input itemsByLabel?: ItemsByLabelT;
 
-  @operation setLabel({ label, id, flag }: LabelValueT) {
-    this.idsByLabel[label] = this.idsByLabel[label] || [];
-    if (flag && !this.idsByLabel[label].includes(id)) {
-      this.idsByLabel[label].push(id);
-      exec("saveIds")(label, this.idsByLabel[label]);
-    }
-    if (!flag && this.idsByLabel[label].includes(id)) {
-      this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
-      exec("saveIds")(label, this.idsByLabel[label]);
-    }
+  @operation @host setLabel(labelValue: LabelValueT) {
+    return (cbs: Labelling_setLabel) => {
+      const { label, id, flag } = labelValue;
+      this.idsByLabel[label] = this.idsByLabel[label] || [];
+      if (flag && !this.idsByLabel[label].includes(id)) {
+        this.idsByLabel[label].push(id);
+        cbs.saveIds(label, this.idsByLabel[label]);
+      }
+      if (!flag && this.idsByLabel[label].includes(id)) {
+        this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
+        cbs.saveIds(label, this.idsByLabel[label]);
+      }
+    };
   }
 
   static get = (ctr: any): Labelling => ctr.labelling;

@@ -3,8 +3,8 @@ import { getCtr } from "facility";
 import { Editing } from "../facets/Editing";
 import { Addition } from "../facets/Addition";
 
-export function newItemsAreConfirmedOnEditingSave(this: Editing, values: any) {
-  const ctr = getCtr(this);
+export function newItemsAreConfirmedOnEditingSave(facet: Editing, values: any) {
+  const ctr = getCtr(facet);
   const addition = Addition.get(ctr);
   if (values.id === undefined) {
     throw Error("No id in item");
@@ -14,8 +14,8 @@ export function newItemsAreConfirmedOnEditingSave(this: Editing, values: any) {
   }
 }
 
-export function newItemsAreCancelledOnEditingCancel(this: Editing) {
-  const ctr = getCtr(this);
+export function newItemsAreCancelledOnEditingCancel(facet: Editing) {
+  const ctr = getCtr(facet);
   if (Addition.get(ctr).item) {
     Addition.get(ctr).cancel();
   }

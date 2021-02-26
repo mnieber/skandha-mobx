@@ -1,8 +1,14 @@
 import { observable } from "mobx";
+import { host, stub } from "aspiration";
 
-import { data, input, operation, output, exec } from "facility";
+import { data, input, operation, output } from "facility";
 import { lookUp, range } from "../internal/utils";
 import { mapDatas } from "..";
+
+export class Selection_selectItem {
+  itemSelectedProps: ItemSelectedPropsT = stub();
+  selectItem() {}
+}
 
 export type ItemSelectedPropsT = {
   itemId: any;
@@ -16,8 +22,10 @@ export class Selection {
   @data @observable anchorId: any;
   @output items?: Array<any>;
 
-  @operation selectItem({ itemId, isShift, isCtrl }: ItemSelectedPropsT) {
-    exec("selectItem");
+  @operation @host selectItem(itemSelectedProps: ItemSelectedPropsT) {
+    return (cbs: Selection_selectItem) => {
+      cbs.selectItem();
+    };
   }
 
   static get = (ctr: any): Selection => ctr.selection;
@@ -28,36 +36,36 @@ export const initSelection = (self: Selection): Selection => {
 };
 
 export function handleSelectItem(
-  this: Selection,
+  facet: Selection,
   { itemId, isShift, isCtrl }: ItemSelectedPropsT
 ) {
-  const hasItem = this.ids.includes(itemId);
-  const selectableIds = this.selectableIds;
+  const hasItem = facet.ids.includes(itemId);
+  const selectableIds = facet.selectableIds;
 
   if (!selectableIds) {
     throw Error("logical error");
   }
 
   if (isShift) {
-    const startItemId = this.anchorId || itemId;
+    const startItemId = facet.anchorId || itemId;
     const startIdx = selectableIds.indexOf(startItemId);
     const stopIdx = selectableIds.indexOf(itemId);
     const idxRange = range(
       Math.min(startIdx, stopIdx),
       1 + Math.max(startIdx, stopIdx)
     );
-    this.ids = idxRange.map((idx) => selectableIds[idx]);
+    facet.ids = idxRange.map((idx) => selectableIds[idx]);
   } else if (isCtrl) {
-    this.ids = hasItem
-      ? this.ids.filter((x) => x !== itemId)
-      : [...this.ids, itemId];
+    facet.ids = hasItem
+      ? facet.ids.filter((x) => x !== itemId)
+      : [...facet.ids, itemId];
   } else {
-    this.ids = [itemId];
+    facet.ids = [itemId];
   }
 
   // Move the anchor
-  if (!(isCtrl && hasItem) && !(isShift && !!this.anchorId)) {
-    this.anchorId = itemId;
+  if (!(isCtrl && hasItem) && !(isShift && !!facet.anchorId)) {
+    facet.anchorId = itemId;
   }
 }
 

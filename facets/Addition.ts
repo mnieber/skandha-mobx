@@ -1,22 +1,49 @@
 import { observable } from "mobx";
-import { operation, data, exec } from "facility";
+import { operation, data } from "facility";
+import { host, stub } from "aspiration";
 
 type GenericObjectT = any;
+
+export class Addition_add<ValueT> {
+  values: GenericObjectT;
+  createItem(): ValueT {
+    return stub();
+  }
+  createItem_post() {}
+}
+export class Addition_confirm<ValueT> {
+  confirm() {}
+}
+export class Addition_cancel<ValueT> {}
+
+export const cbs = {
+  Addition_add,
+  Addition_confirm,
+  Addition_cancel,
+};
 
 export class Addition<ValueT = any> {
   @observable @data item: ValueT | undefined;
   @observable @data parentId: any;
 
-  @operation add(values: GenericObjectT) {
-    this.item = exec("createItem");
-    exec("createItem_post");
+  @operation @host add(values: GenericObjectT) {
+    return (cbs: Addition_add<ValueT>) => {
+      this.item = cbs.createItem();
+      cbs.createItem_post();
+    };
   }
-  @operation confirm() {
-    exec("confirm", { optional: true });
-    this._reset();
+
+  @operation @host confirm() {
+    return (cbs: Addition_confirm<ValueT>) => {
+      cbs.confirm();
+      this._reset();
+    };
   }
-  @operation cancel() {
-    this._reset();
+
+  @operation @host cancel() {
+    return (cbs: Addition_cancel<ValueT>) => {
+      this._reset();
+    };
   }
 
   _reset() {
