@@ -10,7 +10,7 @@
   "prepublish": "tsc",
   "dependencies": {
     "facility": ">=0.0.3",
-    "aspiration": ">=0.0.3",
+    "aspiration": ">=0.1.0",
     "mobx": "^5.14.0"
   },
   "devDependencies": {
