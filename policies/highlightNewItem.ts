@@ -2,7 +2,7 @@ import { getCtr } from "facility";
 import { Highlight } from "../facets/Highlight";
 import { Addition } from "../facets/Addition";
 
-export function highlightNewItem(this: Addition) {
-  const ctr = getCtr(this);
-  Highlight.get(ctr).highlightItem(this.item.id);
+export function highlightNewItem(facet: Addition) {
+  const ctr = getCtr(facet);
+  Highlight.get(ctr).highlightItem(facet.item.id);
 }
