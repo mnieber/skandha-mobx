@@ -7,8 +7,6 @@ import {
   ClassMemberT,
 } from "facility";
 
-export { installHandlers } from "./lib/install";
-
 const zip = (arr: any, ...arrs: any) => {
   return arr.map((val: any, i: any) =>
     arrs.reduce((a: any, arr: any) => [...a, arr[i]], [val])
