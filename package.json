@@ -1,6 +1,6 @@
 {
   "name": "facility-mobx",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Mobx bindings for facility",
   "main": "index.js",
   "repository": "https://github.com/mnieber/facility-mobx.git",
@@ -9,8 +9,8 @@
   "types": "index.d.ts",
   "prepublish": "tsc",
   "peerDependencies": {
-    "facility": ">=0.1.0",
-    "aspiration": ">=0.1.0",
+    "facility": ">=0.1.1",
+    "aspiration": ">=0.1.1",
     "mobx": "^6.1.8"
   },
   "devDependencies": {
