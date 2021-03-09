@@ -1,4 +1,4 @@
-import { observable, runInAction } from "mobx";
+import { action, observable, runInAction } from "mobx";
 import { operation } from "facility";
 import { DropPositionT } from "./Insertion";
 import { isBefore } from "../internal/utils";
@@ -12,9 +12,9 @@ export class DragAndDrop_drop {
 export class DragAndDrop {
   @observable hoverPosition?: DropPositionT;
   @operation @host drop(dropPosition: DropPositionT) {
-    return (cbs: DragAndDrop_drop) => {
+    return action((cbs: DragAndDrop_drop) => {
       cbs.drop();
-    };
+    });
   }
 
   handle(itemId: any) {

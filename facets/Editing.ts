@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { action, observable } from "mobx";
 import { operation } from "facility";
 import { host } from "aspiration";
 
@@ -15,22 +15,22 @@ export class Editing {
   @observable isEditing: boolean = false;
 
   @operation @host save(values: any) {
-    return (cbs: Editing_save) => {
+    return action((cbs: Editing_save) => {
       cbs.saveItem();
       this.isEditing = false;
-    };
+    });
   }
 
   @operation @host cancel() {
-    return (cbs: Editing_cancel) => {
+    return action((cbs: Editing_cancel) => {
       this.isEditing = false;
-    };
+    });
   }
 
   @operation @host enable() {
-    return (cbs: Editing_enable) => {
+    return action((cbs: Editing_enable) => {
       this.isEditing = true;
-    };
+    });
   }
 
   static get = (ctr: any): Editing => ctr.editing;

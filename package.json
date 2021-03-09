@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "description": "Mobx bindings for facility",
   "main": "index.js",
-  "repository": "https://github.com/mnieber/facet-mobx.git",
+  "repository": "https://github.com/mnieber/facility-mobx.git",
   "author": "Maarten Nieber",
   "license": "MIT",
   "types": "index.d.ts",
   "prepublish": "tsc",
-  "dependencies": {
-    "facility": ">=0.0.3",
+  "peerDependencies": {
+    "facility": ">=0.1.0",
     "aspiration": ">=0.1.0",
-    "mobx": "^5.14.0"
+    "mobx": "^6.1.8"
   },
   "devDependencies": {
     "typescript": "^4.0.3"

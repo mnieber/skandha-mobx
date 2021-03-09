@@ -1,3 +1,4 @@
+import { action } from "mobx";
 import { operation } from "facility";
 import { host, stub } from "aspiration";
 
@@ -8,9 +9,9 @@ export class Deletion_delete {
 
 export class Deletion {
   @operation @host delete(itemIds: string[]) {
-    return (cbs: Deletion_delete) => {
+    return action((cbs: Deletion_delete) => {
       cbs.deleteItems();
-    };
+    });
   }
 
   static get = (ctr: any): Deletion => ctr.deletion;

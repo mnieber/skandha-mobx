@@ -1,7 +1,7 @@
 import { getCtr } from "facility";
 import { Addition } from "../facets/Addition";
 import { Highlight } from "../facets/Highlight";
-import { topOfTheList } from "../internal/getPreview";
+import { topOfTheList } from "../lib/getPreview";
 
 export function newItemsAreAddedBelowTheHighlight(facet: Addition) {
   const ctr = getCtr(facet);

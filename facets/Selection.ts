@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { action, observable } from "mobx";
 import { host, stub } from "aspiration";
 
 import { data, input, operation, output } from "facility";
@@ -23,9 +23,9 @@ export class Selection {
   @output items?: Array<any>;
 
   @operation @host selectItem(itemSelectedProps: ItemSelectedPropsT) {
-    return (cbs: Selection_selectItem) => {
+    return action((cbs: Selection_selectItem) => {
       cbs.selectItem();
-    };
+    });
   }
 
   static get = (ctr: any): Selection => ctr.selection;

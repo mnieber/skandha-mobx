@@ -17,7 +17,8 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es6",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true
   },
   "include": ["."],
   "exclude": ["node_modules", "dist"]

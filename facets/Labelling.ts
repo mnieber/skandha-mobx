@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+import { action, observable } from "mobx";
 import { input, operation } from "facility";
 import { ClassMemberT } from "facility";
 import { host, stub } from "aspiration";
@@ -22,7 +22,7 @@ export class Labelling {
   @input itemsByLabel?: ItemsByLabelT;
 
   @operation @host setLabel(labelValue: LabelValueT) {
-    return (cbs: Labelling_setLabel) => {
+    return action((cbs: Labelling_setLabel) => {
       const { label, id, flag } = labelValue;
       this.idsByLabel[label] = this.idsByLabel[label] || [];
       if (flag && !this.idsByLabel[label].includes(id)) {
@@ -33,7 +33,7 @@ export class Labelling {
         this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
         cbs.saveIds(label, this.idsByLabel[label]);
       }
-    };
+    });
   }
 
   static get = (ctr: any): Labelling => ctr.labelling;

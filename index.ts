@@ -1,17 +1,13 @@
-import { extendObservable, reaction } from "mobx";
+import { makeObservable, extendObservable, reaction } from "mobx";
 import {
+  getFacetMemberNames,
   facetClassName,
-  facetName,
-  isDataMember,
   get,
   ClassMemberT,
 } from "facility";
-
-const zip = (arr: any, ...arrs: any) => {
-  return arr.map((val: any, i: any) =>
-    arrs.reduce((a: any, arr: any) => [...a, arr[i]], [val])
-  );
-};
+import { symbols } from "./internal/symbols";
+import { zip, getOrCreate } from "./internal/utils";
+import { createPatch } from "./lib/patch";
 
 export const relayData = (
   [fromFacetClass, fromMember]: ClassMemberT,
@@ -57,64 +53,6 @@ export const relayDatas = (
     }
   );
 
-export function patchFacet(facet: any, members: any) {
-  const facetClass = facet.constructor;
-
-  for (const prop in members) {
-    if (!prop.startsWith("_")) {
-      if (!isDataMember(facetClass, prop)) {
-        console.error(
-          `Patching a property ${prop} that wasn't decorated with ` +
-            `@data, @input or @output in ${facetName(facet)}`
-        );
-      }
-    }
-
-    delete facet[prop];
-  }
-  extendObservable(facet, members);
-}
-
-export function createPatch(
-  patchedFacetClass: any,
-  otherFacetClasses: Array<any>,
-  callback: (...x: any) => any
-) {
-  return (ctr: any) => {
-    const otherFacets = otherFacetClasses.map((facetClass) =>
-      facetClass ? get(facetClass, ctr) : ctr
-    );
-    // @ts-ignore
-    const patch = callback.bind(this)(...otherFacets);
-
-    if (patch && patchedFacetClass) {
-      patchFacet(get(patchedFacetClass, ctr), patch);
-    }
-  };
-}
-
-export function createPatches(
-  patchedFacetClasses: Array<any>,
-  otherFacetClasses: Array<any>,
-  callback: (...x: any) => Array<any>
-) {
-  return (ctr: any) => {
-    const patchedFacets = patchedFacetClasses.map((facetClass) =>
-      get(facetClass, ctr)
-    );
-    const otherFacets = otherFacetClasses.map((facetClass) =>
-      facetClass ? get(facetClass, ctr) : ctr
-    );
-    const patches = callback(...otherFacets);
-
-    console.assert(patchedFacets.length === patches.length);
-
-    zip(patchedFacets, patches).forEach(([facet, patch]: any) => {
-      patchFacet(facet, patch);
-    });
-  };
-}
-
 export const mapData = (
   [fromFacetClass, fromMember]: ClassMemberT,
   [toFacetClass, toMember]: ClassMemberT,
@@ -151,4 +89,40 @@ export const mapDatas = (
       },
     })
   );
+};
+
+export const makeCtrObservable = (ctr: any) => {
+  getFacetMemberNames(ctr).forEach((facetName) => {
+    const facet = ctr[facetName];
+    try {
+      makeObservable(facet);
+    } catch {}
+  });
+
+  try {
+    makeObservable(ctr);
+  } catch {}
+
+  getFacetMemberNames(ctr).forEach((facetName) => {
+    const facet = ctr[facetName];
+    const patches = getOrCreate(facet, symbols.patches, () => []);
+    patches.forEach(({ members }) => {
+      extendObservable(facet, members);
+    });
+  });
+
+  const reactions = getOrCreate(ctr, symbols.reactions, () => []);
+  reactions.forEach(({ collector, executor, options }) => {
+    reaction(collector, executor, options);
+  });
+};
+
+export const declareReaction = (
+  ctr: any,
+  collector: CallableFunction,
+  executor: CallableFunction,
+  options?: any
+) => {
+  const reactions = getOrCreate(ctr, symbols.reactions, () => []);
+  reactions.push({ collector, executor, options });
 };

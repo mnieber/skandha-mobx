@@ -1,8 +1,8 @@
 import { DragSourceT, Insertion } from "../facets/Insertion";
 import { findMap } from "../internal/utils";
-import { getPreview } from "../internal/getPreview";
+import { getPreview } from "../lib/getPreview";
 import { ClassMemberT } from "facility";
-import { createPatch } from "..";
+import { createPatch } from "../lib/patch";
 
 export const createInsertionPreview = (
   dragSources: DragSourceT[],
