@@ -1,6 +1,4 @@
-import { action, observable } from "mobx";
-import { data, operation, output } from "facility";
-import { mapDatas } from "..";
+import { mapDatas, data, operation, output } from "facility";
 import { host, stub } from "aspiration";
 
 export class Highlight_highlightItem {
@@ -8,13 +6,13 @@ export class Highlight_highlightItem {
 }
 
 export class Highlight {
-  @data @observable id: string | undefined;
+  @data id: string | undefined;
   @output item: any;
 
   @operation @host highlightItem(id: string) {
-    return action((cbs: Highlight_highlightItem) => {
+    return (cbs: Highlight_highlightItem) => {
       this.id = id;
-    });
+    };
   }
 
   static get = (ctr: any): Highlight => ctr.highlight;

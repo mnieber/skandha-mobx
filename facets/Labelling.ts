@@ -1,10 +1,9 @@
-import { action, observable } from "mobx";
-import { input, operation } from "facility";
-import { ClassMemberT } from "facility";
+import { data, input, operation } from "facility";
+import { mapDatas, ClassMemberT } from "facility";
 import { host, stub } from "aspiration";
 
 import { lookUp } from "../internal/utils";
-import { mapDatas, relayData } from "..";
+import { relayData } from "..";
 
 export type IdsByLabelT = { [label: string]: Array<any> };
 export type ItemsByLabelT = { [label: string]: Array<any> };
@@ -16,13 +15,13 @@ export class Labelling_setLabel {
 }
 
 export class Labelling {
-  @observable idsByLabel: IdsByLabelT = {};
+  @data idsByLabel: IdsByLabelT = {};
   ids = (label: string) => this.idsByLabel[label] || [];
 
   @input itemsByLabel?: ItemsByLabelT;
 
   @operation @host setLabel(labelValue: LabelValueT) {
-    return action((cbs: Labelling_setLabel) => {
+    return (cbs: Labelling_setLabel) => {
       const { label, id, flag } = labelValue;
       this.idsByLabel[label] = this.idsByLabel[label] || [];
       if (flag && !this.idsByLabel[label].includes(id)) {
@@ -33,7 +32,7 @@ export class Labelling {
         this.idsByLabel[label] = this.idsByLabel[label].filter((x) => x !== id);
         cbs.saveIds(label, this.idsByLabel[label]);
       }
-    });
+    };
   }
 
   static get = (ctr: any): Labelling => ctr.labelling;

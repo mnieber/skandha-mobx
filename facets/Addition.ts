@@ -1,4 +1,3 @@
-import { action, observable } from "mobx";
 import { operation, data } from "facility";
 import { host, stub } from "aspiration";
 
@@ -23,27 +22,27 @@ export const cbs = {
 };
 
 export class Addition<ValueT = any> {
-  @observable @data item: ValueT | undefined;
-  @observable @data parentId: any;
+  @data item: ValueT | undefined;
+  @data parentId: any;
 
   @operation @host add(values: GenericObjectT) {
-    return action((cbs: Addition_add<ValueT>) => {
+    return (cbs: Addition_add<ValueT>) => {
       this.item = cbs.createItem();
       cbs.createItem_post && cbs.createItem_post();
-    });
+    };
   }
 
   @operation @host confirm() {
-    return action((cbs: Addition_confirm<ValueT>) => {
+    return (cbs: Addition_confirm<ValueT>) => {
       cbs.confirm();
       this._reset();
-    });
+    };
   }
 
   @operation @host cancel() {
-    return action((cbs: Addition_cancel<ValueT>) => {
+    return (cbs: Addition_cancel<ValueT>) => {
       this._reset();
-    });
+    };
   }
 
   _reset() {

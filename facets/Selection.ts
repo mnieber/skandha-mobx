@@ -1,9 +1,7 @@
-import { action, observable } from "mobx";
 import { host, stub } from "aspiration";
 
-import { data, input, operation, output } from "facility";
+import { mapDatas, data, input, operation, output } from "facility";
 import { lookUp, range } from "../internal/utils";
-import { mapDatas } from "..";
 
 export class Selection_selectItem {
   itemSelectedProps: ItemSelectedPropsT = stub();
@@ -18,14 +16,14 @@ export type ItemSelectedPropsT = {
 
 export class Selection {
   @input selectableIds?: Array<any>;
-  @data @observable ids: Array<any> = [];
-  @data @observable anchorId: any;
+  @data ids: Array<any> = [];
+  @data anchorId: any;
   @output items?: Array<any>;
 
   @operation @host selectItem(itemSelectedProps: ItemSelectedPropsT) {
-    return action((cbs: Selection_selectItem) => {
+    return (cbs: Selection_selectItem) => {
       cbs.selectItem();
-    });
+    };
   }
 
   static get = (ctr: any): Selection => ctr.selection;

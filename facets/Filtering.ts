@@ -1,9 +1,5 @@
-import { action, observable } from "mobx";
-import { data, operation, output } from "facility";
+import { patchFacet, mapData, data, operation, output } from "facility";
 import { host, stub } from "aspiration";
-
-import { mapData } from "..";
-import { patchFacet } from "../lib/patch";
 
 type FilterT = (x: any) => Array<any>;
 
@@ -16,23 +12,23 @@ export class Filtering_setEnabled {
 }
 
 export class Filtering {
-  @observable isEnabled: boolean = false;
-  @observable filter: FilterT = () => [];
+  @data isEnabled: boolean = false;
+  @data filter: FilterT = () => [];
 
   @data inputItems?: Array<any>;
   @output filteredItems?: Array<any>;
 
   @operation @host apply(filter: FilterT) {
-    return action((cbs: Filtering_apply) => {
+    return (cbs: Filtering_apply) => {
       this.filter = filter;
       this.isEnabled = true;
-    });
+    };
   }
 
   @operation @host setEnabled(flag: boolean) {
-    return action((cbs: Filtering_setEnabled) => {
+    return (cbs: Filtering_setEnabled) => {
       this.isEnabled = flag;
-    });
+    };
   }
 
   static get = (ctr: any): Filtering => ctr.filtering;
@@ -40,12 +36,14 @@ export class Filtering {
 
 const _handleFiltering = (self: Filtering) => {
   patchFacet(self, {
-    get filteredItems() {
-      const isEnabled = this.isEnabled;
-      const filter = this.filter;
-      return filter && isEnabled
-        ? this.filter(this.inputItems)
-        : this.inputItems;
+    filteredItems: {
+      get(this: Filtering) {
+        const isEnabled = this.isEnabled;
+        const filter = this.filter;
+        return filter && isEnabled
+          ? this.filter(this.inputItems)
+          : this.inputItems;
+      },
     },
   });
 };

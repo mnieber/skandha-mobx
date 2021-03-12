@@ -1,3 +1,1 @@
-export const symbols = {
-  patches: Symbol("facilityMobXPatches"),
-};
+export const symbols = {};

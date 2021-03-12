@@ -1,13 +1,13 @@
-import { makeObservable, extendObservable, reaction } from "mobx";
+import { observable, action, makeObservable, computed, reaction } from "mobx";
 import {
   getFacetMemberNames,
+  getDataMemberNames,
+  getPatchedMemberNames,
   facetClassName,
   get,
   ClassMemberT,
+  getOperationMemberNames,
 } from "facility";
-import { symbols } from "./internal/symbols";
-import { zip, getOrCreate } from "./internal/utils";
-import { createPatch } from "./lib/patch";
 
 export const relayData = (
   [fromFacetClass, fromMember]: ClassMemberT,
@@ -53,61 +53,42 @@ export const relayDatas = (
     }
   );
 
-export const mapData = (
-  [fromFacetClass, fromMember]: ClassMemberT,
-  [toFacetClass, toMember]: ClassMemberT,
-  transform?: Function
-) =>
-  createPatch(toFacetClass, [fromFacetClass], (fromFacet: any) => ({
-    get [toMember]() {
-      // TODO: check that fromMember is found
-      const data = fromFacet[fromMember];
-      return transform ? transform(data) : data;
-    },
-  }));
-
-export const mapDatas = (
-  sources: Array<ClassMemberT>,
-  [toFacetClass, toMember]: ClassMemberT,
-  transform: Function
-) => {
-  const fromFacetClasses = sources.map((x) => x[0]);
-  const fromMembers = sources.map((x) => x[1]);
-
-  return createPatch(
-    toFacetClass,
-    fromFacetClasses,
-    (...fromFacets: Array<any>) => ({
-      get [toMember]() {
-        const datas = zip(fromFacets, fromMembers).map(
-          ([facet, member]: any) => {
-            // TODO: check that fromMember is found
-            return facet[member];
-          }
-        );
-        return transform(...datas);
-      },
-    })
-  );
-};
-
 export const makeCtrObservable = (ctr: any) => {
   getFacetMemberNames(ctr).forEach((facetName) => {
     const facet = ctr[facetName];
     try {
-      makeObservable(facet);
+      makeFacetObservable(facet);
     } catch {}
   });
 
   try {
     makeObservable(ctr);
   } catch {}
+};
 
-  getFacetMemberNames(ctr).forEach((facetName) => {
-    const facet = ctr[facetName];
-    const patches = getOrCreate(facet, symbols.patches, () => []);
-    patches.forEach(({ members }) => {
-      extendObservable(facet, members);
-    });
+export const makeFacetObservable = (facet: any) => {
+  addActionsToFacet(facet);
+  try {
+    makeObservable(facet);
+  } catch {}
+
+  const observableMembers = {};
+  getDataMemberNames(facet).forEach((dataMemberName) => {
+    observableMembers[dataMemberName] = observable;
+  });
+
+  const patchedMemberNames = getPatchedMemberNames(facet);
+  patchedMemberNames.forEach((memberName) => {
+    observableMembers[memberName] = computed;
+  });
+
+  try {
+    makeObservable(facet, observableMembers);
+  } catch {}
+};
+
+const addActionsToFacet = (facet: any) => {
+  getOperationMemberNames(facet).forEach((opName) => {
+    facet[opName] = action(facet[opName]);
   });
 };
