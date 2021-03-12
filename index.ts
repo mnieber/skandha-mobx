@@ -110,19 +110,4 @@ export const makeCtrObservable = (ctr: any) => {
       extendObservable(facet, members);
     });
   });
-
-  const reactions = getOrCreate(ctr, symbols.reactions, () => []);
-  reactions.forEach(({ collector, executor, options }) => {
-    reaction(collector, executor, options);
-  });
-};
-
-export const declareReaction = (
-  ctr: any,
-  collector: CallableFunction,
-  executor: CallableFunction,
-  options?: any
-) => {
-  const reactions = getOrCreate(ctr, symbols.reactions, () => []);
-  reactions.push({ collector, executor, options });
 };
