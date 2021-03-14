@@ -1,6 +1,6 @@
 {
   "name": "facility-mobx",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Mobx bindings for facility",
   "main": "index.js",
   "repository": "https://github.com/mnieber/facility-mobx.git",
