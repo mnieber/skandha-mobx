@@ -1,8 +1,15 @@
-import { observable, action, makeObservable, computed } from "mobx";
+import {
+  autorun,
+  observable,
+  action,
+  makeObservable,
+  computed,
+  isObservableProp,
+  isComputedProp,
+} from "mobx";
 import {
   getFacetMemberNames,
   getDataMemberNames,
-  getPatchedMemberNames,
   getOperationMemberNames,
 } from "facility";
 
@@ -27,12 +34,19 @@ export const makeFacetObservable = (facet: any) => {
 
   const observableMembers = {};
   getDataMemberNames(facet).forEach((dataMemberName) => {
-    observableMembers[dataMemberName] = observable;
-  });
-
-  const patchedMemberNames = getPatchedMemberNames(facet);
-  patchedMemberNames.forEach((memberName) => {
-    observableMembers[memberName] = computed;
+    if (
+      !isObservableProp(facet, dataMemberName) &&
+      !isComputedProp(facet, dataMemberName)
+    ) {
+      const descriptor =
+        Object.getOwnPropertyDescriptor(facet, dataMemberName) ??
+        Object.getOwnPropertyDescriptor(
+          facet.constructor.prototype,
+          dataMemberName
+        );
+      observableMembers[dataMemberName] =
+        !descriptor || descriptor.get ? computed : observable;
+    }
   });
 
   try {
