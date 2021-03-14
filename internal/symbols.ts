@@ -1,1 +1,3 @@
-export const symbols = {};
+export const symbols = {
+  admin: Symbol("facility-mobx administration"),
+};

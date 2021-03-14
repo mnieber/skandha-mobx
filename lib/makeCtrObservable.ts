@@ -1,5 +1,6 @@
+import { getAdmin } from "../internal/utils";
+
 import {
-  autorun,
   observable,
   action,
   makeObservable,
@@ -19,11 +20,14 @@ export const makeCtrObservable = (ctr: any) => {
     try {
       makeFacetObservable(facet);
     } catch {}
+    (getAdmin(facet).effects ?? []).forEach((f) => f());
   });
 
   try {
     makeObservable(ctr);
   } catch {}
+
+  (getAdmin(ctr).effects ?? []).forEach((f) => f());
 };
 
 export const makeFacetObservable = (facet: any) => {
@@ -58,4 +62,16 @@ const addActionsToFacet = (facet: any) => {
   getOperationMemberNames(facet).forEach((opName) => {
     facet[opName] = action(facet[opName]);
   });
+};
+
+export const onMakeCtrObservable = (ctr: any, f) => {
+  const ctrAdmin = getAdmin(ctr);
+  const effects = (ctrAdmin.effects = ctrAdmin.effects ?? []);
+  effects.push(f);
+};
+
+export const onMakeFacetObservable = (facet: any, f) => {
+  const facetAdmin = getAdmin(facet);
+  const effects = (facetAdmin.effects = facetAdmin.effects ?? []);
+  effects.push(f);
 };
