@@ -1,3 +1,3 @@
 export const symbols = {
-  admin: Symbol("facility-mobx administration"),
+  admin: Symbol("skandha-mobx administration"),
 };

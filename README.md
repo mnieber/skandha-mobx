@@ -1,3 +1,3 @@
-# facility-mobx
+# skandha-mobx
 
-An extension of mnieber/facility that uses mobx
+An extension of mnieber/skandha that uses mobx

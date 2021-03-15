@@ -1,15 +1,15 @@
 {
-  "name": "facility-mobx",
+  "name": "skandha-mobx",
   "version": "0.2.0",
-  "description": "Mobx bindings for facility",
+  "description": "Mobx bindings for skandha",
   "main": "index.js",
-  "repository": "https://github.com/mnieber/facility-mobx.git",
+  "repository": "https://github.com/mnieber/skandha-mobx.git",
   "author": "Maarten Nieber",
   "license": "MIT",
   "types": "index.d.ts",
   "prepublish": "tsc",
   "peerDependencies": {
-    "facility": ">=0.1.1",
+    "skandha": ">=0.1.1",
     "aspiration": ">=0.1.1",
     "mobx": "^6.1.8"
   },

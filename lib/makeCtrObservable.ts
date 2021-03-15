@@ -12,7 +12,7 @@ import {
   getFacetMemberNames,
   getDataMemberNames,
   getOperationMemberNames,
-} from "facility";
+} from "skandha";
 
 export const makeCtrObservable = (ctr: any) => {
   getFacetMemberNames(ctr).forEach((facetName) => {
