@@ -4,3 +4,4 @@ export {
   onMakeCtrObservable,
   onMakeFacetObservable,
 } from "./lib/makeCtrObservable";
+export { registerCtr } from "./lib/registerCtr";
