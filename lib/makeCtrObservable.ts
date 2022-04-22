@@ -1,18 +1,18 @@
-import { getAdmin } from "../internal/utils";
-
 import {
-  observable,
   action,
-  makeObservable,
   computed,
-  isObservableProp,
+  isAction,
   isComputedProp,
-} from "mobx";
+  isObservableProp,
+  makeObservable,
+  observable,
+} from 'mobx';
 import {
-  getFacetMemberNames,
   getDataMemberNames,
+  getFacetMemberNames,
   getOperationMemberNames,
-} from "skandha";
+} from 'skandha';
+import { getAdmin } from '../internal/utils';
 
 export const makeCtrObservable = (ctr: any) => {
   getFacetMemberNames(ctr).forEach((facetName) => {
@@ -60,7 +60,9 @@ export const makeFacetObservable = (facet: any) => {
 
 const addActionsToFacet = (facet: any) => {
   getOperationMemberNames(facet).forEach((opName) => {
-    facet[opName] = action(facet[opName]);
+    if (!isAction(facet[opName])) {
+      facet[opName] = action(facet[opName]);
+    }
   });
 };
 
