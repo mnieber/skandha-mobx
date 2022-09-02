@@ -3,18 +3,14 @@ import { makeCtrObservable } from './makeCtrObservable';
 
 export type PropsT = {
   ctr: any;
-  details?: any;
+  options: Skandha.RegisterCtrOptionsT;
   initCtr?: Function;
-  childCtrs?: PropsT[];
 };
 
 export const registerCtr = (props: PropsT) => {
-  Skandha.registerFacets(props.ctr, props.details ?? {});
+  Skandha.registerCtr(props.ctr, props.options);
   if (props.initCtr) {
     props.initCtr(props.ctr);
-  }
-  if (props.childCtrs) {
-    props.childCtrs.forEach((childCtrProps) => registerCtr(childCtrProps));
   }
   makeCtrObservable(props.ctr);
 };
