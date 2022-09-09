@@ -54,12 +54,12 @@ const addObservablesAndComputedsToFacet = (facet: any) => {
 
 export const onMakeCtrObservable = (ctr: any, f) => {
   const ctrAdmin = getAdmin(ctr);
-  const effects = (ctrAdmin.effects = ctrAdmin.effects ?? []);
-  effects.push(f);
+  ctrAdmin.effects = ctrAdmin.effects ?? [];
+  ctrAdmin.effects.push(f);
 };
 
 export const onMakeFacetObservable = (facet: any, f) => {
   const facetAdmin = getAdmin(facet);
-  const effects = (facetAdmin.effects = facetAdmin.effects ?? []);
-  effects.push(f);
+  facetAdmin.effects = facetAdmin.effects ?? [];
+  facetAdmin.effects.push(f);
 };
