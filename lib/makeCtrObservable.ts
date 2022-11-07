@@ -25,7 +25,11 @@ export const makeCtrObservable = (ctr: any) => {
 export const makeFacetObservable = (facet: any) => {
   addActionsToFacet(facet);
   addObservablesAndComputedsToFacet(facet);
-  makeObservable(facet);
+  try {
+    makeObservable(facet);
+  } catch (e) {
+    // We need to catch the case where ctr has no mobx annotations.
+  }
 };
 
 const addActionsToFacet = (facet: any) => {
