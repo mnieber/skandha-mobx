@@ -20,6 +20,7 @@ export const makeCtrObservable = (ctr: any) => {
   }
 
   (getAdmin(ctr).effects ?? []).forEach((f) => f());
+  return ctr;
 };
 
 export const makeFacetObservable = (facet: any) => {
@@ -30,6 +31,7 @@ export const makeFacetObservable = (facet: any) => {
   } catch (e) {
     // We need to catch the case where ctr has no mobx annotations.
   }
+  return facet;
 };
 
 const addActionsToFacet = (facet: any) => {
