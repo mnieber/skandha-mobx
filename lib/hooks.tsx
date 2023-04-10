@@ -2,17 +2,16 @@ import React from 'react';
 import {
   DragAndDrop,
   DragAndDropUIConnectorT,
-} from 'skandha-facets/DragAndDrop';
-import {
   Highlight,
   HighlightUIConnectorOptionsT,
   HighlightUIConnectorT,
-} from 'skandha-facets/Highlight';
-import {
   Selection,
   SelectionUIConnectorOptionsT,
   SelectionUIConnectorT,
-} from 'skandha-facets/Selection';
+  createDragAndDropUIConnector,
+  createHighlightUIConnector,
+  createSelectionUIConnector,
+} from 'skandha-facets';
 import { makeFacetObservable } from './makeCtrObservable';
 
 export const useDragAndDropUIConnector = (
@@ -20,19 +19,19 @@ export const useDragAndDropUIConnector = (
   dependencies?: any[]
 ) => {
   const dragAndDropUIConnector = React.useMemo<DragAndDropUIConnectorT>(
-    () => makeFacetObservable(dragAndDrop.createUIConnector()),
+    () => makeFacetObservable(createDragAndDropUIConnector(dragAndDrop)),
     [dragAndDrop, ...(dependencies ?? [])]
   );
   return dragAndDropUIConnector;
 };
 
-export const useSelectionUIConnector = (
-  selection: Selection,
+export const useSelectionUIConnector = <T,>(
+  selection: Selection<T>,
   options?: SelectionUIConnectorOptionsT,
   dependencies?: any[]
 ) => {
   const selectionUIConnector = React.useMemo<SelectionUIConnectorT>(
-    () => makeFacetObservable(selection.createUIConnector(options)),
+    () => makeFacetObservable(createSelectionUIConnector(selection, options)),
     [selection, ...(dependencies ?? [])]
   );
   return selectionUIConnector;
@@ -44,7 +43,7 @@ export const useHighlightUIConnector = (
   dependencies?: any[]
 ) => {
   const highlightUIConnector = React.useMemo<HighlightUIConnectorT>(
-    () => makeFacetObservable(highlight.createUIConnector(options)),
+    () => makeFacetObservable(createHighlightUIConnector(highlight, options)),
     [highlight, ...(dependencies ?? [])]
   );
   return highlightUIConnector;
