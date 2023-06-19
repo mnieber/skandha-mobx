@@ -1,5 +1,1 @@
-export {
-  useDragAndDropUIConnector,
-  useHighlightUIConnector,
-  useSelectionUIConnector,
-} from './lib/hooks';
+export { useDragAndDropUIConnector } from './lib/hooks';
