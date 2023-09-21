@@ -1,6 +1,6 @@
 {
   "name": "skandha-mobx",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "Mobx bindings for skandha",
   "main": "index.js",
   "repository": "https://github.com/mnieber/skandha-mobx.git",
@@ -9,8 +9,8 @@
   "types": "index.d.ts",
   "prepublish": "tsc",
   "peerDependencies": {
-    "skandha": "^0.11.0",
-    "aspiration": ">=0.5.0",
+    "skandha": "^0.13.0",
+    "aspiration": ">=0.5.2",
     "mobx": "^6.1.8"
   },
   "devDependencies": {
